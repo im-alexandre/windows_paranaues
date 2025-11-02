@@ -198,7 +198,7 @@ function cd
   $env:FZF_BASE = $base
 
   # Constrói a lista: BASE + subdiretórios do BASE
-  $subs  = & fd . $base --type directory --max-depth 4 --hidden --follow --exclude .git 2>$null
+  $subs  = & fd . $base --type directory --max-depth 4 --hidden --follow --exclude .git --relative-to $base 2>$null
   $items = @($base) + @($subs)
 
   # Mostra no fzf
