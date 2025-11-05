@@ -175,9 +175,7 @@ if (Test-Path($ChocolateyProfile))
   Import-Module "$ChocolateyProfile"
 }
 
-Remove-Alias cd -ErrorAction SilentlyContinue
-
-function cd
+function cdf
 {
   [CmdletBinding()]
   param([Parameter(Position=0)][string]$Path)
@@ -226,6 +224,11 @@ function nc
   nvim init.lua
 }
 
+function avante
+{
+  nvim -c "lua vim.defer_fn(function()require('avante.api').zen_mode() end, 100)"
+}
+
 Remove-Item Alias:where -Force
 Set-Alias where "C:\Windows\System32\where.exe"
 Set-Alias lg "lazygit"
@@ -236,3 +239,12 @@ $env:PGCLIENTENCODING = "UTF8"
 $JAVA_HOME = "D:/tools/java/openjdk-21.0.2_windows-x64_bin"
 $env:JAVA_HOME = "D:/tools/java/openjdk-21.0.2_windows-x64_bin"
 $env:PATH = "$env:JAVA_HOME\bin;$env:PATH"
+# Consoles em UTF-8
+[Console]::InputEncoding  = New-Object System.Text.UTF8Encoding($false)
+[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
+chcp 65001 | Out-Null
+
+# Padrões de encoding ao gravar arquivos
+$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
+$PSDefaultParameterValues['Set-Content:Encoding'] = 'utf8'
+$PSDefaultParameterValues['Add-Content:Encoding'] = 'utf8'
