@@ -196,4 +196,35 @@ if (Test-Path $menuScript) {
   Write-Host "`n[MENU] menu_open_neovim.ps1 não encontrado no repo. Pulando." -ForegroundColor DarkYellow
 }
 
+# =========================================================
+# FIX PERMISSIONS + REMOVE MARK-OF-THE-WEB (Zone.Identifier)
+# Target: C:\tools
+# =========================================================
+
+Write-Host "Fixing ownership and permissions for C:\tools..."
+
+# Take ownership
+takeown /F C:\tools /R /D Y | Out-Null
+
+# Ensure inheritance is enabled
+icacls C:\tools /inheritance:e /T /C | Out-Null
+
+# Set current user as owner
+icacls C:\tools /setowner "$env:USERNAME" /T /C | Out-Null
+
+# Grant full control to current user
+icacls C:\tools /grant "$env:USERNAME:(OI)(CI)F" /T /C | Out-Null
+
+Write-Host "Removing Zone.Identifier (Mark-of-the-Web) streams..."
+
+# Remove Zone.Identifier alternate data streams
+Get-ChildItem C:\tools -Recurse -Force -ErrorAction SilentlyContinue -Stream Zone.Identifier |
+Remove-Item -Force -ErrorAction SilentlyContinue
+
+# Unblock files just in case
+Get-ChildItem C:\tools -Recurse -Force -ErrorAction SilentlyContinue |
+Unblock-File -ErrorAction SilentlyContinue
+
+Write-Host "Permissions and Zone.Identifier cleanup completed."
+
 Write-Host "`n=== FIM :: RECEBA 🧪😈 ===" -ForegroundColor Cyan
