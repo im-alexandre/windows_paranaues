@@ -83,7 +83,7 @@
                 "elevate": true,
                 "guid": "{e4b440d3-672f-43d3-8163-697d6517a79e}",
                 "hidden": false,
-                "icon": "\ue72e",
+                "icon": "D:/windows_paranaues/admin.png",
                 "name": "PowerShell (Admin)",
                 "startingDirectory": "%USERPROFILE%"
             },
