@@ -227,4 +227,11 @@ Unblock-File -ErrorAction SilentlyContinue
 
 Write-Host "Permissions and Zone.Identifier cleanup completed."
 
+Write-Host "Linkando o settings para o terminal"
+$repo = "D:\windows_paranaues\windows-terminal\settings.json"
+$dst  = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
+
+Remove-Item $dst -Force -ErrorAction SilentlyContinue
+New-Item -ItemType SymbolicLink -Path $TERMINAL_REPO -Target $repo
+
 Write-Host "`n=== FIM :: RECEBA 🧪😈 ===" -ForegroundColor Cyan
